@@ -19,8 +19,6 @@ public class DemoController {
                 .getAuthentication()
                 .getCredentials();
 
-        logger.info(accessToken);
-
         return accessToken;
     }
 }

@@ -38,10 +38,6 @@ public class AzureAuthFilter extends OncePerRequestFilter {
 
     @PostConstruct
     public void init() {
-        log.info("Tenant ID: {}", tenantId);
-        log.info("Client ID: {}", clientId);
-        log.info("Client Secret: {}", clientSecret);
-
         clientSecretCredential = new ClientSecretCredentialBuilder()
                 .tenantId(tenantId)
                 .clientId(clientId)
@@ -63,7 +59,7 @@ public class AzureAuthFilter extends OncePerRequestFilter {
                     token.getToken()    // REST-API Access Token
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("Authentication set successfully");
+            log.info("System Authentication set successfully");
         } else {
             log.error("Failed to retrieve access token");
         }
