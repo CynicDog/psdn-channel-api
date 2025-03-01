@@ -17,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.web.filter.OncePerRequestFilter;
-import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -39,6 +38,10 @@ public class AzureAuthFilter extends OncePerRequestFilter {
 
     @PostConstruct
     public void init() {
+        log.info("Tenant ID: {}", tenantId);
+        log.info("Client ID: {}", clientId);
+        log.info("Client Secret: {}", clientSecret);
+
         clientSecretCredential = new ClientSecretCredentialBuilder()
                 .tenantId(tenantId)
                 .clientId(clientId)
@@ -49,37 +52,23 @@ public class AzureAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+
         String scope = "https://graph.microsoft.com/.default";
 
-        // TODO: migrate to blocking behavior
-        // Get the access token asynchronously
-        Mono<AccessToken> tokenResponse = clientSecretCredential.getToken(new TokenRequestContext().addScopes(scope))
-                .map(accessToken -> {
+        AccessToken token = clientSecretCredential.getToken(new TokenRequestContext().addScopes(scope)).block();
 
-                    // log.info("Access token: {}", accessToken.getToken());
-                    log.info("Access token acquired successfully");
-                    return accessToken;
-                })
-                .doOnError(error -> {
-                    log.error("Error while acquiring access token: {}", error.getMessage());
-                });
+        if (token != null) {
+            Authentication authentication = new PreAuthenticatedAuthenticationToken(
+                    clientId,           // Service Principal
+                    token.getToken()    // REST-API Access Token
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            log.info("Authentication set successfully");
+        } else {
+            log.error("Failed to retrieve access token");
+        }
 
-        // Subscribe to the Mono and set authentication once the token is acquired
-        tokenResponse.subscribe(
-                token -> {
-                    Authentication authentication = new PreAuthenticatedAuthenticationToken(
-                            clientId,           // principal
-                            token.getToken()    // credentials
-                    );
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                    log.info("Authentication set successfully");
-                },
-                error -> {
-                    log.error("Authentication failed: {}", error.getMessage());
-                }
-        );
-
-        // Proceed with the filter chain
+        // Proceed with the filter chain (will continue once token is acquired)
         filterChain.doFilter(request, response);
     }
 }
