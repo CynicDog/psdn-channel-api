@@ -1,5 +1,6 @@
 package kr.co.metlife.psdnchannelapi.controller;
 
+import kr.co.metlife.psdnchannelapi.proxy.AzureProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
+    private final AzureProxy azureProxy;
+
+    public UserController(AzureProxy azureProxy) {
+        this.azureProxy = azureProxy;
+    }
+
     @PreAuthorize("hasRole('ROLE_Application')")
     @GetMapping("/greetAsApplication")
     public ResponseEntity<String> greetAsApplication() {
@@ -22,15 +29,20 @@ public class UserController {
             return new ResponseEntity<>("Authentication is missing", HttpStatus.UNAUTHORIZED);
         }
 
-        // Get the roles of the authenticated user (assuming roles are included in the JWT token)
-        boolean isAdmin = authentication.getAuthorities().stream()
+        boolean isApplication = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_Application"));
 
         // Return appropriate message
-        if (isAdmin) {
+        if (isApplication) {
             return new ResponseEntity<>("Hello, Application!", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("false", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_Application', 'ROLE_Admin')")
+    @GetMapping("/getUsers")
+    public ResponseEntity<String> getUsers() {
+        return azureProxy.get("https://graph.microsoft.com/v1.0/users");
     }
 }

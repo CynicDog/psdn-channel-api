@@ -47,7 +47,6 @@ public class RoleProviderFilter extends OncePerRequestFilter {
 
         if (token != null && !token.isEmpty()) {
             try {
-                // Validate the JWT signature and parse claims
                 Jwt jwt = jwtDecoder.decode(token);
 
                 String username = jwt.getClaimAsString("preferred_username");
@@ -60,7 +59,7 @@ public class RoleProviderFilter extends OncePerRequestFilter {
                             null,
                             roles
                     );
-                    log.info("User Authentication set successfully.");
+                    log.info( "User Authentication set successfully");
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 } else {
