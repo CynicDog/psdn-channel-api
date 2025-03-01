@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
-    @PreAuthorize("hasRole('Role.Application')")
-    @GetMapping("/greetAsAdmin")
-    public ResponseEntity<String> greetAsAdmin() {
+    @PreAuthorize("hasRole('ROLE_Application')")
+    @GetMapping("/greetAsApplication")
+    public ResponseEntity<String> greetAsApplication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null) {
@@ -24,11 +24,11 @@ public class UserController {
 
         // Get the roles of the authenticated user (assuming roles are included in the JWT token)
         boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("Role.Application"));
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_Application"));
 
         // Return appropriate message
         if (isAdmin) {
-            return new ResponseEntity<>("true", HttpStatus.OK);
+            return new ResponseEntity<>("Hello, Application!", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("false", HttpStatus.FORBIDDEN);
         }
