@@ -1,0 +1,27 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: psdn-channel-api
+
+  security:
+    oauth2:
+      client:
+        provider:
+          azure:
+            issuer-uri: https://login.microsoftonline.com/${psdn.tenant-id}/v2.0
+        registration:
+          azure-client-credentials:
+            authorization-grant-type: client_credentials
+            provider: azure
+            client-id: ${psdn.client-id}
+            client-secret: ${psdn.client-secret}
+            scope:
+              - https://graph.microsoft.com/.default
+
+psdn:
+  tenant-id:
+  client-id:
+  client-secret:
+
