@@ -67,11 +67,11 @@ public class RoleProviderFilter extends OncePerRequestFilter {
                     log.error("Failed to retrieve roles from the token");
                 }
 
-            } catch (JwtValidationException e) {
+            } catch (Exception e) {
                 log.error("Failed to decode or validate the JWT token", e);
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
-                response.getWriter().write("{\"error\": \"token_expired_or_invalid\"}");
+                response.getWriter().write("Failed to decode or validate the JWT token");
                 response.getWriter().flush();
                 return;
             }
