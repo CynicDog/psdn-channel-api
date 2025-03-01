@@ -46,7 +46,9 @@ public class AzureProxy {
         return accessToken.getToken();
     }
 
-    public ResponseEntity<String> get(String endpoint) {
+    public ResponseEntity<String> getUsers() {
+
+        String endpoint = "https://graph.microsoft.com/v1.0/users";
 
         String token = getAccessToken();
 
@@ -59,4 +61,20 @@ public class AzureProxy {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
     }
+
+//    public ResponseEntity<String> getAppRoleAssignments() {
+//
+//        String endpoint = String.format("https://graph.microsoft.com/v1.0/servicePrincipals/%s/appRoleAssignments", clientId);
+//
+//        String token = getAccessToken();
+//
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.set("Authorization", "Bearer " + token);
+//        headers.set("Content-Type", "application/json");
+//
+//        HttpEntity<String> entity = new HttpEntity<>(headers);
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        return restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
+//    }
 }
