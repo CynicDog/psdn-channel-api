@@ -40,15 +40,15 @@ public class UserController {
         }
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_Application', 'ROLE_Admin')")
-//    @GetMapping("/getUsers")
-//    public ResponseEntity<String> getUsers() {
-//        return azureProxy.getUsers();
-//    }
-//
-//    @PreAuthorize("hasAnyRole('ROLE_Application', 'ROLE_Admin')")
-//    @GetMapping("/getAppRoleAssignments")
-//    public ResponseEntity<String> getAppRoleAssignments() {
-//        return azureProxy.getAppRoleAssignments();
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_Application', 'ROLE_Admin')")
+    @GetMapping("/getUsers")
+    public ResponseEntity<String> getUsers() {
+        return azureProxy.getUsers();
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_Application', 'ROLE_Admin')")
+    @GetMapping("/getAppRoles")
+    public ResponseEntity<String> getAppRoleAssignments() {
+        return azureProxy.getAppRoles();
+    }
 }

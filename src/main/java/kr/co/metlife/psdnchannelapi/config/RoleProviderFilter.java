@@ -50,9 +50,12 @@ public class RoleProviderFilter extends OncePerRequestFilter {
                 Jwt jwt = jwtDecoder.decode(token);
 
                 String username = jwt.getClaimAsString("preferred_username");
-                List<GrantedAuthority> roles = jwt.getClaimAsStringList("roles").stream()
+                List<GrantedAuthority> roles = jwt
+                        .getClaimAsStringList("roles")
+                        .stream()
                         .map(role -> new SimpleGrantedAuthority(role.replace("Role.", "ROLE_")))
                         .collect(Collectors.toList());
+
                 if (!roles.isEmpty()) {
                     Authentication authentication = new UsernamePasswordAuthenticationToken(
                             username,

@@ -26,6 +26,9 @@ public class AzureProxy {
     @Value("${psdn.client-secret}")
     private String clientSecret;
 
+    @Value("${psdn.client-display-name}")
+    private String clientDisplayName;
+
     private TokenCredential clientSecretCredential;
 
     @PostConstruct
@@ -62,9 +65,25 @@ public class AzureProxy {
         return restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
     }
 
+    public ResponseEntity<String> getAppRoles() {
+
+        String endpoint = String.format("https://graph.microsoft.com/v1.0/applications?$select=displayName, appId, appRoles&$filter=startswith(displayName, '%s')", clientDisplayName);
+
+        String token = getAccessToken();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+        headers.set("Content-Type", "application/json");
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.exchange(endpoint, HttpMethod.GET, entity, String.class);
+    }
+
 //    public ResponseEntity<String> getAppRoleAssignments() {
 //
-//        String endpoint = String.format("https://graph.microsoft.com/v1.0/servicePrincipals/%s/appRoleAssignments", clientId);
+//        String endpoint = String.format("https://graph.microsoft.com/v1.0/servicePrincipals(appId='%s')/appRoleAssignments", clientId);
 //
 //        String token = getAccessToken();
 //
