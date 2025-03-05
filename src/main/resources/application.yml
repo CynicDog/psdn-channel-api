@@ -11,8 +11,6 @@ info:
     id:
     secret:
     name: psdn-multi-tenant-app
-  api:
-    prefix: v1/tenants/KOREA/KUDP
   remote-server:
     system:
       base-url: "http://localhost:8999/v1/tenants/KOREA/KUDP/system"
