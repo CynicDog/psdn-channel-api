@@ -22,7 +22,7 @@ info:
 server:
   port: 7999
   servlet:
-    context-path: "/v1/tenants/KOREA/KUDP/channel"
+    context-path: "/${info.application.version}/tenants/${info.tenant.name}/${info.project.name}/${info.application.name}"
 
 spring:
   application:
