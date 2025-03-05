@@ -1,0 +1,30 @@
+package kr.co.metlife.pseudomgtchannelapi.feature.logic;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.metlife.pseudomgtchannelapi.dto.RuleDTO;
+import kr.co.metlife.pseudomgtchannelapi.feature.MetaFeatureService;
+import kr.co.metlife.pseudomgtchannelapi.proxy.logic.SystemProxyLogic;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@RequiredArgsConstructor
+public class MetaFeatureLogic implements MetaFeatureService {
+
+    private final SystemProxyLogic systemProxyLogic;
+    private final ObjectMapper objectMapper;
+
+    @Override
+    public List<RuleDTO> getRules() throws JsonProcessingException {
+
+        ResponseEntity<String> response = systemProxyLogic.get("/rules");
+        List<RuleDTO> rules = objectMapper.readValue(response.getBody(), new TypeReference<List<RuleDTO>>() {});
+
+        return rules;
+    }
+}

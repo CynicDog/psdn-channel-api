@@ -1,34 +1,60 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.3'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.0.7'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+ext {
+    lombokVersion = "1.18.22"
+    springBootVersion = '3.3.0'
 }
 
 group = 'kr.co.metlife'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
 }
 
+bootRun {
+//    args = ["--spring.profiles.active=local"]
+}
+
+// Metlife Artifactory 경로 추가
 repositories {
     mavenCentral()
+
+//    maven {
+//        url "https://artifactory.metlife.co.kr/artifactory/global-MavenCentral-remote"
+//    }
+//    maven {
+//        url "https://artifactory.metlife.co.kr/artifactory/libs-release"
+//    }
+//    maven {
+//        url "https://artifactory.metlife.co.kr/artifactory/libs-snapshot"
+//    }
 }
 
 dependencies {
-    /* Web */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-webflux', version: '3.2.0'
+    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '12.8.1.jre11'
 
-    /* Security */
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.2.0'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '3.2.0'
+    //    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.2.0'
+//    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-client', version: '3.2.0'
     implementation group: 'com.azure', name: 'azure-identity', version: '1.15.0'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+}
+
+dependencyManagement {
+//dependencyManagement    imports {
+//        mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+//    }
 }
 
 tasks.named('test') {

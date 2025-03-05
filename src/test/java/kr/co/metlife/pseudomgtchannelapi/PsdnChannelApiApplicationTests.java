@@ -1,4 +1,4 @@
-package kr.co.metlife.psdnchannelapi;
+package kr.co.metlife.pseudomgtchannelapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

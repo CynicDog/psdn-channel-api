@@ -1,4 +1,4 @@
-package kr.co.metlife.psdnchannelapi;
+package kr.co.metlife.pseudomgtchannelapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

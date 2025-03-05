@@ -1,27 +1,29 @@
+info:
+  application:
+    version: v1
+    name: channel
+  project:
+    displayName: KUDP
+  tenant:
+    displayName: KOREA
+    id:
+  client:
+    displayName: psdn-multi-tenant-app
+    id:
+    secret:
+  remote-server:
+    system:
+      base-url: "http://localhost:8999"
+    entra:
+      base-url: "https://graph.microsoft.com/"
+    synapse:
+      base-url: ""
+
 server:
-  port: 9090
+  port: 7999
+  servlet:
+    context-path: /${info.application.version}/tenants/${info.tenant.displayName}/${info.project.displayName}/${spring.application.name}
 
 spring:
   application:
-    name: psdn-channel-api
-
-  security:
-    oauth2:
-      client:
-        provider:
-          azure:
-            issuer-uri: https://login.microsoftonline.com/${psdn.tenant-id}/v2.0
-        registration:
-          azure-client-credentials:
-            authorization-grant-type: client_credentials
-            provider: azure
-            client-id: ${psdn.client-id}
-            client-secret: ${psdn.client-secret}
-            scope:
-              - https://graph.microsoft.com/.default
-
-psdn:
-  tenant-id:
-  client-id:
-  client-secret:
-  client-display-name:
+    name: ${info.application.name}
