@@ -1,4 +1,4 @@
-package kr.co.metlife.pseudomgtchannelapi.dto;
+package kr.co.metlife.pseudomgtchannelapi.dto.meta;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class Metadata {
     private long timestamp;
     private String username;
-    private String source;
     private int count;
 }

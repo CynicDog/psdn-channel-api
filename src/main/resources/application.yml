@@ -3,17 +3,19 @@ info:
     version: v1
     name: channel
   project:
-    displayName: KUDP
+    name: KUDP
   tenant:
-    displayName: KOREA
     id:
+    name: KOREA
   client:
-    displayName: psdn-multi-tenant-app
     id:
     secret:
+    name: psdn-multi-tenant-app
+  api:
+    prefix: v1/tenants/KOREA/KUDP
   remote-server:
     system:
-      base-url: "http://localhost:8999"
+      base-url: "http://localhost:8999/v1/tenants/KOREA/KUDP/system"
     entra:
       base-url: "https://graph.microsoft.com/"
     synapse:
@@ -22,8 +24,8 @@ info:
 server:
   port: 7999
   servlet:
-    context-path: /${info.application.version}/tenants/${info.tenant.displayName}/${info.project.displayName}/${spring.application.name}
+    context-path: "/v1/tenants/KOREA/KUDP/channel"
 
 spring:
   application:
-    name: ${info.application.name}
+    name: channel

@@ -25,8 +25,8 @@ public class EntraProxyLogic implements ProxyService {
     @Value("${info.client.secret}")
     private String clientSecret;
 
-    @Value("${info.client.displayName}")
-    private String clientDisplayName;
+    @Value("${info.client.name}")
+    private String clientName;
 
     private RestTemplate restTemplate;
     private TokenCredential clientSecretCredential;

@@ -1,11 +1,10 @@
 package kr.co.metlife.pseudomgtchannelapi.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import kr.co.metlife.pseudomgtchannelapi.dto.ApiResponse;
-import kr.co.metlife.pseudomgtchannelapi.dto.Metadata;
+import kr.co.metlife.pseudomgtchannelapi.dto.meta.ApiResponse;
+import kr.co.metlife.pseudomgtchannelapi.dto.meta.Metadata;
 import kr.co.metlife.pseudomgtchannelapi.dto.RuleDTO;
 import kr.co.metlife.pseudomgtchannelapi.feature.logic.MetaFeatureLogic;
-import kr.co.metlife.pseudomgtchannelapi.proxy.logic.SystemProxyLogic;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MetaController {
 
-    @Value("${info.application.name}")
-    private String baseUrl;
-
     private final MetaFeatureLogic metaFeatureLogic;
 
     /**
@@ -34,7 +30,7 @@ public class MetaController {
 
         List<RuleDTO> rules = metaFeatureLogic.getRules();
 
-        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", baseUrl, rules.size());
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", rules.size());
         ApiResponse<List<RuleDTO>> apiResponse = new ApiResponse<>(rules, metadata);
 
         return ResponseEntity.ok(apiResponse);

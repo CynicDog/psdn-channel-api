@@ -1,4 +1,4 @@
-package kr.co.metlife.pseudomgtchannelapi.dto;
+package kr.co.metlife.pseudomgtchannelapi.dto.meta;
 
 
 import lombok.AllArgsConstructor;
