@@ -5,7 +5,7 @@ import kr.co.metlife.pseudomgtchannelapi.dto.ParameterDTO;
 import kr.co.metlife.pseudomgtchannelapi.dto.meta.ApiResponse;
 import kr.co.metlife.pseudomgtchannelapi.dto.meta.Metadata;
 import kr.co.metlife.pseudomgtchannelapi.dto.RuleDTO;
-import kr.co.metlife.pseudomgtchannelapi.feature.logic.MetaFeatureLogic;
+import kr.co.metlife.pseudomgtchannelapi.feature.MetaFeatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MetaController {
 
-    private final MetaFeatureLogic metaFeatureLogic;
+    private final MetaFeatureService metaFeatureService;
 
     /**
      * @description 가명화 규칙을 조회합니다.
@@ -28,10 +28,10 @@ public class MetaController {
     @GetMapping("/rules")
     public ResponseEntity<ApiResponse<List<RuleDTO>>> getRules() throws JsonProcessingException {
 
-        List<RuleDTO> rules = metaFeatureLogic.getRules();
+        List<RuleDTO> items = metaFeatureService.getRules();
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", items.size());
 
-        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", rules.size());
-        ApiResponse<List<RuleDTO>> apiResponse = new ApiResponse<>(rules, metadata);
+        ApiResponse<List<RuleDTO>> apiResponse = new ApiResponse<>(items, metadata);
 
         return ResponseEntity.ok(apiResponse);
     }
@@ -43,10 +43,10 @@ public class MetaController {
     @GetMapping("/parameters")
     public ResponseEntity<ApiResponse<List<ParameterDTO>>> getParameters() throws JsonProcessingException {
 
-        List<ParameterDTO> parameters = metaFeatureLogic.getParameters();
+        List<ParameterDTO> items = metaFeatureService.getParameters();
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", items.size());
 
-        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", parameters.size());
-        ApiResponse<List<ParameterDTO>> apiResponse = new ApiResponse<>(parameters, metadata);
+        ApiResponse<List<ParameterDTO>> apiResponse = new ApiResponse<>(items, metadata);
 
         return ResponseEntity.ok(apiResponse);
     }
