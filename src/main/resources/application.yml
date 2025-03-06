@@ -12,6 +12,8 @@ info:
     secret:
     name: psdn-multi-tenant-app
   remote-server:
+    front:
+      base-url: "http://localhost:3000"
     system:
       base-url: "http://localhost:8999/v1/tenants/KOREA/KUDP/system"
     entra:

@@ -32,7 +32,7 @@ public class MetaFeatureLogic implements MetaFeatureService {
     @Override
     public List<ParameterDTO> getParameters() throws JsonProcessingException {
 
-        ResponseEntity<String> response = systemProxyLogic.get("/meta/rules");
+        ResponseEntity<String> response = systemProxyLogic.get("/meta/parameters");
         List<ParameterDTO> parameters = objectMapper.readValue(response.getBody(), new TypeReference<List<ParameterDTO>>() {});
 
         return parameters;
