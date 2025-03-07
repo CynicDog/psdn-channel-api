@@ -3,6 +3,9 @@ package kr.co.metlife.pseudomgtchannelapi.proxy.logic;
 import jakarta.annotation.PostConstruct;
 import kr.co.metlife.pseudomgtchannelapi.proxy.ProxyService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +25,12 @@ public class SystemProxyLogic implements ProxyService {
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(baseUrl));
     }
 
+    private HttpEntity<Object> createJsonRequest(Object payload) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return new HttpEntity<>(payload, headers);
+    }
+
     @Override
     public ResponseEntity<String> delete(String url) {
         // TODO
@@ -36,8 +45,8 @@ public class SystemProxyLogic implements ProxyService {
 
     @Override
     public ResponseEntity<String> post(String url, Object payload) {
-        // TODO
-        return null;
+        HttpEntity<Object> requestEntity = createJsonRequest(payload);
+        return restTemplate.postForEntity(baseUrl + url, requestEntity, String.class);
     }
 
     @Override

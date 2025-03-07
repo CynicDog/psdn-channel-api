@@ -38,9 +38,9 @@ public class EntraProxyLogic implements ProxyService {
         restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(baseUrl));
 
         clientSecretCredential = new ClientSecretCredentialBuilder()
-                .tenantId(tenantId)
                 .clientId(clientId)
                 .clientSecret(clientSecret)
+                .tenantId(tenantId)
                 .build();
     }
 

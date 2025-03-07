@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.metlife.pseudomgtchannelapi.dto.ParameterDTO;
 import kr.co.metlife.pseudomgtchannelapi.dto.RuleDTO;
+import kr.co.metlife.pseudomgtchannelapi.dto.TableDTO;
 import kr.co.metlife.pseudomgtchannelapi.feature.MetaFeatureService;
 import kr.co.metlife.pseudomgtchannelapi.proxy.logic.SystemProxyLogic;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +37,14 @@ public class MetaFeatureLogic implements MetaFeatureService {
         List<ParameterDTO> parameters = objectMapper.readValue(response.getBody(), new TypeReference<List<ParameterDTO>>() {});
 
         return parameters;
+    }
+
+    @Override
+    public List<TableDTO> getTables() throws JsonProcessingException {
+
+        ResponseEntity<String> response = systemProxyLogic.get("/meta/tables");
+        List<TableDTO> tables = objectMapper.readValue(response.getBody(), new TypeReference<List<TableDTO>>() {});
+
+        return tables;
     }
 }
