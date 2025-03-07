@@ -3,6 +3,7 @@ package kr.co.metlife.pseudomgtchannelapi.feature.logic;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.metlife.pseudomgtchannelapi.dto.ConfigTableDTO;
 import kr.co.metlife.pseudomgtchannelapi.dto.ProjectDTO;
 import kr.co.metlife.pseudomgtchannelapi.feature.ProjectFeatureService;
 import kr.co.metlife.pseudomgtchannelapi.proxy.logic.SystemProxyLogic;
@@ -35,5 +36,14 @@ public class ProjectFeatureLogic implements ProjectFeatureService {
         ProjectDTO project = objectMapper.readValue(response.getBody(), ProjectDTO.class);
 
         return project;
+    }
+
+    @Override
+    public ConfigTableDTO saveConfigTable(String projectId, ConfigTableDTO configTableDTO) throws JsonProcessingException {
+
+        ResponseEntity<String> response = systemProxyLogic.post(String.format("/projects/%s/configTable/save", projectId), objectMapper.writeValueAsString(configTableDTO));
+        ConfigTableDTO configTable = objectMapper.readValue(response.getBody(), ConfigTableDTO.class);
+
+        return configTable;
     }
 }

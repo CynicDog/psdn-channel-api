@@ -1,16 +1,14 @@
 package kr.co.metlife.pseudomgtchannelapi.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import kr.co.metlife.pseudomgtchannelapi.dto.ConfigTableDTO;
 import kr.co.metlife.pseudomgtchannelapi.dto.ProjectDTO;
 import kr.co.metlife.pseudomgtchannelapi.dto.meta.ApiResponse;
 import kr.co.metlife.pseudomgtchannelapi.dto.meta.Metadata;
 import kr.co.metlife.pseudomgtchannelapi.feature.ProjectFeatureService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/projects")
@@ -29,6 +27,18 @@ public class ProjectController {
         Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1); // TODO: replace "JohnDoe" with such of `var username =  SecurityContext.getUsername()`
 
         ApiResponse<ProjectDTO> apiResponse = new ApiResponse<>(item, metadata);
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/{projectId}/configTable/save")
+    public ResponseEntity<ApiResponse<ConfigTableDTO>> saveConfigTable(@PathVariable String projectId, @RequestBody ConfigTableDTO payload) throws JsonProcessingException {
+
+
+        ConfigTableDTO item = projectFeatureService.saveConfigTable(projectId, payload);
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1);
+
+        ApiResponse<ConfigTableDTO> apiResponse = new ApiResponse<>(item, metadata);
 
         return ResponseEntity.ok(apiResponse);
     }

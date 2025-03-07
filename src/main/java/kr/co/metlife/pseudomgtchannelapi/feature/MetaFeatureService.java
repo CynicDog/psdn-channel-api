@@ -10,6 +10,8 @@ import java.util.List;
 public interface MetaFeatureService {
 
     List<RuleDTO> getRules() throws JsonProcessingException;
+
     List<ParameterDTO> getParameters() throws JsonProcessingException;
+
     List<TableDTO> getTables() throws JsonProcessingException;
 }
