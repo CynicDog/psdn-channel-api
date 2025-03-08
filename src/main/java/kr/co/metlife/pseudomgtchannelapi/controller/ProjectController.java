@@ -22,7 +22,6 @@ public class ProjectController {
     @PostMapping("/save")
     public ResponseEntity<ApiResponse<ProjectDTO>> saveProject(@RequestBody ProjectDTO payload) throws JsonProcessingException {
 
-
         ProjectDTO item = projectFeatureService.saveProject(payload);
         Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1); // TODO: replace "JohnDoe" with such of `var username =  SecurityContext.getUsername()`
 
@@ -34,11 +33,32 @@ public class ProjectController {
     @PostMapping("/{projectId}/configTable/save")
     public ResponseEntity<ApiResponse<ConfigTableDTO>> saveConfigTable(@PathVariable String projectId, @RequestBody ConfigTableDTO payload) throws JsonProcessingException {
 
-
         ConfigTableDTO item = projectFeatureService.saveConfigTable(projectId, payload);
         Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1);
 
         ApiResponse<ConfigTableDTO> apiResponse = new ApiResponse<>(item, metadata);
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/{projectId}/configTables/{configTableId}/delete")
+    public ResponseEntity<ApiResponse<Void>> deleteConfigTable(@PathVariable String projectId, @PathVariable String configTableId) throws JsonProcessingException {
+
+        projectFeatureService.deleteConfigTable(projectId, configTableId);
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1);
+
+        ApiResponse<Void> apiResponse = new ApiResponse<>(null, metadata);
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/{projectId}/delete")
+    public ResponseEntity<ApiResponse<Void>> deleteProject(@PathVariable String projectId) throws JsonProcessingException {
+
+        projectFeatureService.deleteProject(projectId);
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1);
+
+        ApiResponse<Void> apiResponse = new ApiResponse<>(null, metadata);
 
         return ResponseEntity.ok(apiResponse);
     }

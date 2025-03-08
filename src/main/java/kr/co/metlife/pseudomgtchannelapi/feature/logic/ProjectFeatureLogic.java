@@ -46,4 +46,14 @@ public class ProjectFeatureLogic implements ProjectFeatureService {
 
         return configTable;
     }
+
+    @Override
+    public void deleteConfigTable(String projectId, String configTableId) throws JsonProcessingException {
+        systemProxyLogic.delete(String.format("/projects/%s/configTables/%s/delete", projectId, configTableId));
+    }
+
+    @Override
+    public void deleteProject(String projectId) throws JsonProcessingException {
+        systemProxyLogic.delete(String.format("/projects/%s/delete", projectId));
+    }
 }

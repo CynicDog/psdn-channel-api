@@ -3,10 +3,7 @@ package kr.co.metlife.pseudomgtchannelapi.proxy.logic;
 import jakarta.annotation.PostConstruct;
 import kr.co.metlife.pseudomgtchannelapi.proxy.ProxyService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
@@ -33,8 +30,7 @@ public class SystemProxyLogic implements ProxyService {
 
     @Override
     public ResponseEntity<String> delete(String url) {
-        // TODO
-        return null;
+        return restTemplate.exchange(baseUrl + url, HttpMethod.DELETE, HttpEntity.EMPTY, String.class);
     }
 
     @Override
