@@ -12,6 +12,8 @@ public interface ProjectFeatureService {
 
     ProjectDTO saveProject(ProjectDTO projectDTO) throws JsonProcessingException;
 
+    List<ProjectDTO> saveAllProjects(List<ProjectDTO> projectDTO) throws JsonProcessingException;
+
     ConfigTableDTO saveConfigTable(String projectId, ConfigTableDTO configTableDTO) throws JsonProcessingException;
 
     void deleteConfigTable(String projectId, String configTableId) throws JsonProcessingException;

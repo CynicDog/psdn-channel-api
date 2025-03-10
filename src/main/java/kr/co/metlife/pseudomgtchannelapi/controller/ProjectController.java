@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/projects")
 @RequiredArgsConstructor
@@ -26,6 +28,17 @@ public class ProjectController {
         Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", 1); // TODO: replace "JohnDoe" with such of `var username =  SecurityContext.getUsername()`
 
         ApiResponse<ProjectDTO> apiResponse = new ApiResponse<>(item, metadata);
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/saveAll")
+    public ResponseEntity<ApiResponse<List<ProjectDTO>>> saveProject(@RequestBody List<ProjectDTO> payload) throws JsonProcessingException {
+
+        List<ProjectDTO> item = projectFeatureService.saveAllProjects(payload);
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", item.size());
+
+        ApiResponse<List<ProjectDTO>> apiResponse = new ApiResponse<>(item, metadata);
 
         return ResponseEntity.ok(apiResponse);
     }

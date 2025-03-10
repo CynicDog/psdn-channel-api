@@ -39,6 +39,15 @@ public class ProjectFeatureLogic implements ProjectFeatureService {
     }
 
     @Override
+    public List<ProjectDTO> saveAllProjects(List<ProjectDTO> projectDTOList) throws JsonProcessingException {
+
+        ResponseEntity<String> response = systemProxyLogic.post("/projects/saveAll", objectMapper.writeValueAsString(projectDTOList));
+        List<ProjectDTO> projects = objectMapper.readValue(response.getBody(), new TypeReference<List<ProjectDTO>>() {});
+
+        return projects;
+    }
+
+    @Override
     public ConfigTableDTO saveConfigTable(String projectId, ConfigTableDTO configTableDTO) throws JsonProcessingException {
 
         ResponseEntity<String> response = systemProxyLogic.post(String.format("/projects/%s/configTable/save", projectId), objectMapper.writeValueAsString(configTableDTO));
