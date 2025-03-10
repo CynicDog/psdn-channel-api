@@ -30,18 +30,4 @@ public class ProjectDTO implements Cloneable, Serializable {
     private LocalDateTime startTimestamp;
     private LocalDateTime finishTimestamp;
     private List<ConfigTableDTO> configTables;
-
-    public ProjectDTO(String id, String username, String name, Integer sequence, String status, String explanation, LocalDateTime createTimestamp, LocalDateTime approveTimestamp, LocalDateTime startTimestamp, LocalDateTime finishTimestamp, List<ConfigTableDTO> configTables) {
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.sequence = sequence;
-        this.status = status;
-        this.explanation = explanation;
-        this.createTimestamp = createTimestamp;
-        this.approveTimestamp = approveTimestamp;
-        this.startTimestamp = startTimestamp;
-        this.finishTimestamp = finishTimestamp;
-        this.configTables = configTables;
-    }
 }

@@ -19,6 +19,17 @@ public class ProjectController {
 
     private final ProjectFeatureService projectFeatureService;
 
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ProjectDTO>>> getAllProjects() throws JsonProcessingException {
+
+        List<ProjectDTO> items = projectFeatureService.getAllProjects();
+        Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", items.size());
+
+        ApiResponse<List<ProjectDTO>> apiResponse = new ApiResponse<>(items, metadata);
+
+        return ResponseEntity.ok(apiResponse);
+    }
+
     // TODO: more resilient and cleaner Exception handling
     // TODO: RBAC on APIs (PreAuthorize with Role parsing filter in the Spring Security flow)
     @PostMapping("/save")
@@ -33,7 +44,7 @@ public class ProjectController {
     }
 
     @PostMapping("/saveAll")
-    public ResponseEntity<ApiResponse<List<ProjectDTO>>> saveProject(@RequestBody List<ProjectDTO> payload) throws JsonProcessingException {
+    public ResponseEntity<ApiResponse<List<ProjectDTO>>> saveAllProjects(@RequestBody List<ProjectDTO> payload) throws JsonProcessingException {
 
         List<ProjectDTO> item = projectFeatureService.saveAllProjects(payload);
         Metadata metadata = new Metadata(System.currentTimeMillis(), "JohnDoe", item.size());

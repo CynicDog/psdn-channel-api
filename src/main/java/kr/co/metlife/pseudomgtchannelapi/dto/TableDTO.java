@@ -24,14 +24,4 @@ public class TableDTO implements Cloneable, Serializable {
     private LocalDateTime inputTimestamp;
     private String updateUsername;
     private LocalDateTime updateTimestamp;
-
-    public TableDTO(String id, String name, String logicalName, String inputUsername, LocalDateTime inputTimestamp, String updateUsername, LocalDateTime updateTimestamp) {
-        this.id = id;
-        this.name = name;
-        this.logicalName = logicalName;
-        this.inputUsername = inputUsername;
-        this.inputTimestamp = inputTimestamp;
-        this.updateUsername = updateUsername;
-        this.updateTimestamp = updateTimestamp;
-    }
 }

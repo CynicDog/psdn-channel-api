@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface ProjectFeatureService {
 
+    List<ProjectDTO> getAllProjects() throws JsonProcessingException;
+
     List<ProjectDTO> getProjectsByUsername(String username) throws JsonProcessingException;
 
     ProjectDTO saveProject(ProjectDTO projectDTO) throws JsonProcessingException;

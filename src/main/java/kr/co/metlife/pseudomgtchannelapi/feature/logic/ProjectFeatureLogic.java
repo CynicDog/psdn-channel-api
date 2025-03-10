@@ -21,9 +21,18 @@ public class ProjectFeatureLogic implements ProjectFeatureService {
     private final ObjectMapper objectMapper;
 
     @Override
+    public List<ProjectDTO> getAllProjects() throws JsonProcessingException {
+
+        ResponseEntity<String> response = systemProxyLogic.get("/projects");
+        List<ProjectDTO> projects = objectMapper.readValue(response.getBody(), new TypeReference<List<ProjectDTO>>() {});
+
+        return projects;
+    }
+
+    @Override
     public List<ProjectDTO> getProjectsByUsername(String username) throws JsonProcessingException {
 
-        ResponseEntity<String> response = systemProxyLogic.get("/projects?username=" + username);
+        ResponseEntity<String> response = systemProxyLogic.get(String.format("/projects?username=%s", username));
         List<ProjectDTO> projects = objectMapper.readValue(response.getBody(), new TypeReference<List<ProjectDTO>>() {});
 
         return projects;
